@@ -1,6 +1,4 @@
 using System.Reflection;
-using VerticalSlicesApi;
-using VerticalSlicesApi.Features.Weather;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +6,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<WeatherService>();
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+	options.CustomSchemaIds(type => type.FullName?.Replace("+", ".") ?? type.Name);
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+	app.UseSwagger();
+	app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 
 // Map all endpoints discovered from the executing assembly
