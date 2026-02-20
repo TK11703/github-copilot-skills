@@ -1,0 +1,25 @@
+@VerticalSlicesApi_HostAddress = http://localhost:5123
+
+### Get weather forecast for London
+GET {{VerticalSlicesApi_HostAddress}}/weather?city=London
+Accept: application/json
+
+###
+
+### Get weather forecast for New York
+GET {{VerticalSlicesApi_HostAddress}}/weather?city=New%20York
+Accept: application/json
+
+###
+
+### Get weather forecast for Tokyo
+GET {{VerticalSlicesApi_HostAddress}}/weather?city=Tokyo
+Accept: application/json
+
+###
+
+### Missing city - should return 400 Bad Request
+GET {{VerticalSlicesApi_HostAddress}}/weather?city=
+Accept: application/json
+
+###
