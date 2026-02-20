@@ -5,7 +5,7 @@ public class WeatherService(HttpClient httpClient)
     private const string GeocodingUrl = "https://geocoding-api.open-meteo.com/v1/search";
     private const string ForecastUrl = "https://api.open-meteo.com/v1/forecast";
 
-    public async Task<WeatherResponse[]?> GetForecastAsync(string city)
+    public async Task<GetWeatherForecastHandler.Response[]?> GetForecastAsync(string city)
     {
         // Step 1: resolve city name to coordinates
         var geoResponse = await httpClient.GetFromJsonAsync<GeocodingResponse>(
@@ -34,7 +34,7 @@ public class WeatherService(HttpClient httpClient)
             Math.Min(daily.Time.Count, daily.TemperatureMax.Count),
             Math.Min(daily.TemperatureMin.Count, daily.WeatherCode.Count));
 
-        return Enumerable.Range(0, count).Select(i => new WeatherResponse(
+        return Enumerable.Range(0, count).Select(i => new GetWeatherForecastHandler.Response(
             city,
             DateOnly.Parse(daily.Time[i]),
             (int)Math.Round(daily.TemperatureMax[i]),
@@ -86,3 +86,4 @@ public class WeatherService(HttpClient httpClient)
         [property: System.Text.Json.Serialization.JsonPropertyName("weathercode")]
         List<int> WeatherCode);
 }
+
