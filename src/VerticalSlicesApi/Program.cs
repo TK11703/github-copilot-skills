@@ -1,9 +1,11 @@
 using VerticalSlicesApi;
+using VerticalSlicesApi.Features.Weather;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<WeatherService>();
 
 var app = builder.Build();
 

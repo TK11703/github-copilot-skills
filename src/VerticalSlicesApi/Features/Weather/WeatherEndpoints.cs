@@ -2,36 +2,39 @@ namespace VerticalSlicesApi.Features.Weather;
 
 public static class WeatherEndpoints
 {
-    private static readonly string[] Summaries =
-    [
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild",
-        "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    ];
-
     public static IEndpointRouteBuilder MapWeatherEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/weather", GetWeatherForecast)
             .WithName("GetWeatherForecast")
-            .WithSummary("Get a 5-day weather forecast for the specified city")
+            .WithSummary("Get a 5-day weather forecast for the specified city using Open-Meteo")
             .WithTags("Weather");
 
         return app;
     }
 
-    private static IResult GetWeatherForecast(string city)
+    private static async Task<IResult> GetWeatherForecast(string city, WeatherService weatherService)
     {
         if (string.IsNullOrWhiteSpace(city))
         {
             return Results.BadRequest("A city name is required.");
         }
 
-        var forecast = Enumerable.Range(1, 5).Select(index => new WeatherResponse(
-            city,
-            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            Summaries[Random.Shared.Next(Summaries.Length)]
-        )).ToArray();
+        try
+        {
+            var forecast = await weatherService.GetForecastAsync(city);
 
-        return Results.Ok(forecast);
+            if (forecast is null)
+            {
+                return Results.NotFound($"Could not find weather data for '{city}'. Please check the city name and try again.");
+            }
+
+            return Results.Ok(forecast);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or System.Text.Json.JsonException)
+        {
+            return Results.Problem(
+                detail: "The weather service is currently unavailable. Please try again later.",
+                statusCode: StatusCodes.Status503ServiceUnavailable);
+        }
     }
 }
