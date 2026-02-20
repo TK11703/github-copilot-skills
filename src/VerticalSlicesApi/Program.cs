@@ -1,5 +1,4 @@
-using VerticalSlicesApi.Features.Todo;
-using VerticalSlicesApi.Features.Weather;
+using VerticalSlicesApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +10,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
-// Register feature endpoints (vertical slices)
-app.MapWeatherEndpoints();
-app.MapTodoEndpoints();
+// Register all feature endpoints (vertical slices)
+app.MapAllEndpoints();
 
 app.Run();
