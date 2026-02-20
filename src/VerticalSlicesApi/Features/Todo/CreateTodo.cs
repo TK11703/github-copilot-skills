@@ -2,10 +2,10 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace VerticalSlicesApi.Features.Todo;
 
-public static class CreateTodoHandler
+public static class CreateTodo
 {
     // Note: IDs are sequential and in-memory only; they reset on application restart.
-    private static int _nextId = 0;
+    private static int _nextId;
 
     public record Request(string Title, string? Description);
 
@@ -24,5 +24,16 @@ public static class CreateTodoHandler
         TodoCacheHelper.SetItems(cache, updated);
 
         return Results.Created($"/todos/{newItem.Id}", new Response(newItem.Id, newItem.Title, newItem.Description, newItem.IsCompleted));
+    }
+
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapPost("/todos", Handle)
+                .WithName("CreateTodo")
+                .WithSummary("Create a new todo item")
+                .WithTags("Todo");
+        }
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace VerticalSlicesApi.Features.Todo;
 
-public static class UpdateTodoHandler
+public static class UpdateTodo
 {
     public record Request(string Title, string? Description, bool IsCompleted);
 
@@ -32,5 +32,16 @@ public static class UpdateTodoHandler
 
         var updatedItem = updated.First(x => x.Id == id);
         return Results.Ok(new Response(updatedItem.Id, updatedItem.Title, updatedItem.Description, updatedItem.IsCompleted));
+    }
+
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapPut("/todos/{id:int}", Handle)
+                .WithName("UpdateTodo")
+                .WithSummary("Update an existing todo item")
+                .WithTags("Todo");
+        }
     }
 }

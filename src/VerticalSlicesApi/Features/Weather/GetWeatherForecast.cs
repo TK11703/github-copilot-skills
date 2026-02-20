@@ -1,6 +1,6 @@
 namespace VerticalSlicesApi.Features.Weather;
 
-public static class GetWeatherForecastHandler
+public static class GetWeatherForecast
 {
     public record Response(
         string City,
@@ -36,6 +36,17 @@ public static class GetWeatherForecastHandler
             return Results.Problem(
                 detail: "The weather service is currently unavailable. Please try again later.",
                 statusCode: StatusCodes.Status503ServiceUnavailable);
+        }
+    }
+
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapGet("/weather", Handle)
+                .WithName("GetWeatherForecast")
+                .WithSummary("Get a 5-day weather forecast for the specified city using Open-Meteo")
+                .WithTags("Weather");
         }
     }
 }

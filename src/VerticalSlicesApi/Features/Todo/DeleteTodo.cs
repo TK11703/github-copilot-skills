@@ -2,7 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace VerticalSlicesApi.Features.Todo;
 
-public static class DeleteTodoHandler
+public static class DeleteTodo
 {
     public static IResult Handle(int id, IMemoryCache cache)
     {
@@ -17,5 +17,16 @@ public static class DeleteTodoHandler
         TodoCacheHelper.SetItems(cache, updated);
 
         return Results.NoContent();
+    }
+
+    public sealed class Endpoint : IEndpoint
+    {
+        public void MapEndpoint(IEndpointRouteBuilder app)
+        {
+            app.MapDelete("/todos/{id:int}", Handle)
+                .WithName("DeleteTodo")
+                .WithSummary("Delete a todo item")
+                .WithTags("Todo");
+        }
     }
 }
