@@ -1,0 +1,80 @@
+@VerticalSlicesApi_HostAddress = http://localhost:5123
+
+### Get all todos
+GET {{VerticalSlicesApi_HostAddress}}/todos
+Accept: application/json
+
+###
+
+### Get todo by ID (replace 1 with the ID returned from the create request)
+GET {{VerticalSlicesApi_HostAddress}}/todos/1
+Accept: application/json
+
+###
+
+### Create a new todo
+POST {{VerticalSlicesApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread"
+}
+
+###
+
+### Create another todo
+POST {{VerticalSlicesApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Read a book",
+  "description": "Finish reading Clean Architecture"
+}
+
+###
+
+### Create a todo without a description
+POST {{VerticalSlicesApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "Go for a walk"
+}
+
+###
+
+### Update a todo (replace 1 with a valid ID)
+PUT {{VerticalSlicesApi_HostAddress}}/todos/1
+Content-Type: application/json
+
+{
+  "title": "Buy groceries",
+  "description": "Milk, eggs, bread, and cheese",
+  "isCompleted": true
+}
+
+###
+
+### Delete a todo (replace 1 with a valid ID)
+DELETE {{VerticalSlicesApi_HostAddress}}/todos/1
+Accept: application/json
+
+###
+
+### Create todo with missing title - should return 400 Bad Request
+POST {{VerticalSlicesApi_HostAddress}}/todos
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "No title provided"
+}
+
+###
+
+### Get todo that does not exist - should return 404 Not Found
+GET {{VerticalSlicesApi_HostAddress}}/todos/9999
+Accept: application/json
+
+###
