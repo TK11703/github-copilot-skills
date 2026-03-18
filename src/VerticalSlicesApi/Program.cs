@@ -1,4 +1,6 @@
 using System.Reflection;
+using VerticalSlicesApi;
+using VerticalSlicesApi.Features.Weather;
 
 var builder = WebApplication.CreateBuilder(args);
 

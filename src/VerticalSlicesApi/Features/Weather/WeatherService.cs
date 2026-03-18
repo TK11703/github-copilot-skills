@@ -43,6 +43,11 @@ public class WeatherService(HttpClient httpClient)
         )).ToArray();
     }
 
+/// <summary>
+/// This is a test comment header
+/// </summary>
+/// <param name="code"></param>
+/// <returns></returns>
     private static string WmoCodeToSummary(int code) => code switch
     {
         0 => "Clear sky",
