@@ -8,6 +8,8 @@ This folder contains the GitHub Copilot skills for this repository. Each skill i
 ## Table of Contents
 
 - [What are GitHub Copilot Skills?](#what-are-github-copilot-skills)
+- [Benefits of Skills?](#benefits-of-skills)
+- [Skills vs Instructions vs Prompts](#️-skills-vs-instructions-vs-prompts)
 - [Folder Structure](#folder-structure)
 - [Requirements](#requirements)
 - [Creating a Skill](#creating-a-skill)
@@ -23,10 +25,8 @@ This folder contains the GitHub Copilot skills for this repository. Each skill i
 
 - Define **trigger phrases** or **slash commands** (e.g. `/case`, `/yoda`) that activate specialized behavior.
 - Encode **domain knowledge**, **response formats**, and **decision logic** directly into Copilot's context.
-- Call **external scripts** (JavaScript, PowerShell, etc.) to perform computation that Copilot then incorporates into its response.
+- Call **supporting scripts** (JavaScript, PowerShell, etc.) to perform computation that Copilot then incorporates into its response. Execution is sandboxed and only allowed after the user explicitly approves running local code.
 - Establish **consistent output structures** so Copilot always returns responses in a predictable format.
-
-Skills are surfaced to Copilot via the `applyTo` metadata in their YAML frontmatter and through VS Code's agent customization system.
 
 ---
 
@@ -35,11 +35,59 @@ Skills are surfaced to Copilot via the `applyTo` metadata in their YAML frontmat
 GitHub Copilot Skills offer several advantages over ad-hoc prompting or general Copilot usage:
 
 - **Consistency** — Skills enforce a fixed output format, so every invocation returns a predictable, structured response rather than a freeform answer.
+- **Low Impact** - Skills are indexed as tools. Copilot loads only their metadata, so the runtime code is not injected into the context window. The skill is invoked only when needed. The skill’s description is small and lightweight.
 - **Reusability** — Once authored, a skill can be reused across sessions and shared with teammates by committing it to the repository.
 - **Domain encapsulation** — Complex domain knowledge, business rules, or coding standards are encoded once in `SKILL.md` rather than repeated in every prompt.
 - **Script integration** — Skills can delegate computation to external scripts (JavaScript, PowerShell, etc.), allowing logic that is difficult to express in natural language to be handled in code.
-- **Discoverability** — Skills are automatically discovered by Copilot when present in `.github/skills/`, with no additional configuration required.
+- **Discoverability** — Skills are automatically discovered by Copilot when present in `.github/skills/`, with no additional configuration required. The skill’s description influences when Copilot thinks it’s appropriate to use it.
 - **Reduced prompt engineering** — Trigger phrases and slash commands let users activate specialized behavior without writing long, precise prompts each time.
+
+This means:
+
+- ✔ Skills don’t consume context window space
+- ✔ Skills don’t slow down reasoning
+- ✔ Skills don’t conflict with each other
+- ✔ Skills don’t affect tone or behavior
+- ✔ Skills scale infinitely better than instructions
+
+Skills expand **capabilities**, not **cognitive load**.
+
+---
+
+## ⚖️ Skills vs. Instructions vs. Prompts
+
+| Feature | Skills | Instructions | Prompts |
+|---|---|---|---|
+| **Purpose** | Add new capabilities via code | Shape Copilot's personality & behavior | Ask Copilot to do something once |
+| **Lives in** | `.github/skills/<name>/SKILL.md` | GitHub/VS Code settings | Chat window |
+| **Persistence** | Permanent, reusable | Persistent | Temporary |
+| **Executes code?** | ✔️ Yes (local runtime) | ❌ No | ❌ No |
+| **Best for** | Automation, APIs, workflows, custom logic | Tone, preferences, rules | One-off tasks |
+| **Affects chat context?** | ✔️ Yes — by adding new callable actions Copilot can choose from | ✔️ Yes — modifies Copilot’s baseline behavior across all chats | ✔️ Yes — but only for the current turn or thread |
+| **Example** | "Call my JS script to format JSON" | "Use concise explanations" | "Summarize this file" |
+
+```
+           +-----------------------------+
+           |        Instructions         |
+           |    (Persistent behavior)    |
+           +-----------------------------+
+                         |
+                         v
+           +-----------------------------+
+           |           Skills            |
+           |  (Persistent capabilities)  |
+           +-----------------------------+
+                         |
+                         v
+           +-----------------------------+
+           |           Prompts           |
+           |     (Immediate intent)      |
+           +-----------------------------+
+
+```
+ - Instructions define how Copilot behaves
+ - Skills define what Copilot can do
+ - Prompts define what Copilot should do right now
 
 ---
 
@@ -120,7 +168,7 @@ No additional configuration is required. Copilot automatically discovers skill f
    .github/skills/my-skill/
    ```
 
-2. Add a `SKILL.md` file with a YAML frontmatter header and your instructions:
+2. Add a `SKILL.md` file with a YAML front matter header and your instructions:
    ```markdown
    ---
    name: my-skill
@@ -190,12 +238,14 @@ The script should export a single `handle(message)` function and return a plain 
 |---|---|---|
 | `hello-world` | `hello world`, `hi there`, `hi world` | Returns a friendly greeting |
 | `force-response` | `may the force be with you`, `mtfbwy` | Returns a Star Wars blessing |
+| `get-weather` | `What's the weather in <city>?`, `Weather in <city>`, `/weather <city>` | Retrieves real-time weather information for a specified city |
 | `modify-text-case` | `/case <type> <text>` | Converts text to `upper`, `lower`, or `pascal` case |
 | `sentiment-detector` | `analyze sentiment`, `classify sentiment`, etc. | Classifies text as Positive, Negative, or Neutral |
 | `text-cleaner` | `clean this text`, `normalize text`, etc. | Trims, collapses whitespace, lowercases, removes special characters |
 | `yoda` | `Hey Yoda`, `Master Yoda`, `/yoda` | Responds in Yoda-style wisdom using an external JS script for sentiment and force-alignment |
 | `dotnet-best-practices` | Applied to `**/*.cs` files | Reviews and enforces .NET/C# project conventions |
 | `aspnet-minimal-api-openapi` | Applied to ASP.NET endpoint work | Guides creation of Minimal API endpoints with OpenAPI documentation |
+| `microsoft-skill-creator` | "create a skill for...", "build a skill for..." | Creates hybrid skills for Microsoft technologies using Learn MCP tools |
 
 ---
 
