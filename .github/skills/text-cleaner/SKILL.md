@@ -7,7 +7,7 @@ description: Cleans and normalizes user-provided text.
 
 Use this skill whenever the user asks to clean, normalize, or sanitize text.
 
-Cleaning rules:
+## Cleaning rules
 1. Trim leading/trailing whitespace.
 2. Collapse multiple internal spaces to a single space.
 3. Convert text to lowercase.
