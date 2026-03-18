@@ -30,6 +30,19 @@ Skills are surfaced to Copilot via the `applyTo` metadata in their YAML frontmat
 
 ---
 
+## Benefits of Skills
+
+GitHub Copilot Skills offer several advantages over ad-hoc prompting or general Copilot usage:
+
+- **Consistency** — Skills enforce a fixed output format, so every invocation returns a predictable, structured response rather than a freeform answer.
+- **Reusability** — Once authored, a skill can be reused across sessions and shared with teammates by committing it to the repository.
+- **Domain encapsulation** — Complex domain knowledge, business rules, or coding standards are encoded once in `SKILL.md` rather than repeated in every prompt.
+- **Script integration** — Skills can delegate computation to external scripts (JavaScript, PowerShell, etc.), allowing logic that is difficult to express in natural language to be handled in code.
+- **Discoverability** — Skills are automatically discovered by Copilot when present in `.github/skills/`, with no additional configuration required.
+- **Reduced prompt engineering** — Trigger phrases and slash commands let users activate specialized behavior without writing long, precise prompts each time.
+
+---
+
 ## Folder Structure
 
 Skills live under `.github/skills/`, one folder per skill. Each skill folder contains at minimum a `SKILL.md` file, and optionally a `scripts/` subfolder for any supporting code.
