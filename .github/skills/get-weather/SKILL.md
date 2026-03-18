@@ -47,12 +47,7 @@ Extract the city name from the user's message to use as input.
 
 ## Required Response
 
-**On success:** Return output in this exact structure (no labels, no code fences, no extra explanation):
-
-Line 1: **Weather in <city>**
-Line 2: **Temperature:** High <tempMaxC>°C / Low <tempMinC>°C
-Line 3: **Conditions:** <conditions>
-Line 4+: 5-day forecast table with date, high, low, and conditions
+**On success:** Return output using the [template](./TEMPLATE.md)
 
 **On ambiguous:** Ask the user to clarify which location they mean by listing the options:
 "I found multiple cities named <name>. Which did you mean?"
