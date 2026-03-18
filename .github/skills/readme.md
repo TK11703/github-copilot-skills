@@ -259,4 +259,7 @@ Looking for more skill ideas and community examples? Check out these resources:
 - **AwesomeSkill.ai** — A searchable gallery of Copilot skills across categories:
   [awesomeskill.ai](https://awesomeskill.ai/)
 
+- **Anthropic Skills** — Example skills from Anthropic:
+  [github.com/anthropics/skills/tree/main/skills](https://github.com/anthropics/skills/tree/main/skills)
+
 ---
