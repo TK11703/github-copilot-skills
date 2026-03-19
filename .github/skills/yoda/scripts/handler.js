@@ -5,7 +5,7 @@
  * and builds a structured context object for the AI to generate a Yoda response.
  */
 
-const { getForceAlignment } = require('./script.js');
+const { getForceAlignment } = require('./get-force-alignment.js');
 
 const TRIGGER_PHRASES = ['hey yoda', 'master yoda', 'master', '/yoda'];
 

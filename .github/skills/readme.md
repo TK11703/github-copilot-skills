@@ -166,7 +166,7 @@ Some skills need to perform logic that is better expressed in code than in natur
 ├── SKILL.md
 └── scripts/
     ├── handler.js    ← orchestrates trigger detection and calls script.js
-    └── script.js     ← pure logic: sentiment scoring, force-alignment mapping
+    └── get-force-alignment.js     ← pure logic: sentiment scoring, force-alignment mapping
 ```
 
 In `SKILL.md`, instruct Copilot to call the exported function and pass the user's message as an argument:

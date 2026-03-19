@@ -59,6 +59,6 @@ Line 3: <Yoda-style wisdom response based on `result.sentiment` and `result.alig
 - End with a piece of guiding wisdom matching the force alignment
 
 ## Files
-- `./scripts/script.js` - Sentiment to Force alignment mapper
+- `./scripts/get-force-alignment.js` - Sentiment to Force alignment mapper
 - `./scripts/handler.js` - Trigger detection and response orchestration
 - `SKILL.md` - This documentation
