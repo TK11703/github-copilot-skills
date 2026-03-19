@@ -1,0 +1,23 @@
+{
+  "name": "GitHub Copilot Skills",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit"
+      ],
+      "settings": {
+        "chat.skills.enabled": true
+      }
+    }
+  },
+  "postCreateCommand": "dotnet restore"
+}
