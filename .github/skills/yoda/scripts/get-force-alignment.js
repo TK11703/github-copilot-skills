@@ -1,5 +1,5 @@
 /**
- * script.js — Sentiment to Force alignment mapper for the Yoda skill.
+ * get-force-alignment.js — Sentiment to Force alignment mapper for the Yoda skill.
  *
  * Maps a detected sentiment value to a Star Wars Force alignment and
  * the corresponding narrative path label.
