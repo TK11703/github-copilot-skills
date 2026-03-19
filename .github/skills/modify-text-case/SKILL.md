@@ -17,12 +17,15 @@ Accepted \<type\> values (case-insensitive):
 - lowercase
 - pascal
 - pascalcase
+- kebab
+- kebabcase
 
 Also trigger on natural language phrases like (case-insensitive):
 - uppercase
 - lower case
 - lowercase
 - pascal case
+- kebab case
 
 Text to transform:
 1. If text is selected, transform the selected text only.
@@ -33,7 +36,7 @@ Case rules:
 1. Uppercase: convert all letters to uppercase.
 2. Lowercase: convert all letters to lowercase.
 3. PascalCase: split words on whitespace, underscores, and hyphens; remove other separators; capitalize each word; concatenate without spaces.
-
+4. KebabCase: split words on whitespace, underscores, and hyphens; remove other separators; convert all letters to lowercase; join words with hyphens.
 If the requested case is ambiguous, ask one concise clarification question.
 If the user uses /case but omits \<type\>, ask one concise clarification question for the type.
 
